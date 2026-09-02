@@ -984,7 +984,7 @@
             <div class="progress-bar-bg">
                 <div class="progress-bar-fill" id="progressFill"></div>
             </div>
-            <span class="loading-text" id="loadingText">Memuat aset... 0%</span>
+            <span class="loading-text" id="loadingText">Membuka Undangan... 0%</span>
         </div>
     </div>
 
@@ -1410,7 +1410,7 @@
             const percent = Math.min(100, Math.floor((loadedCount / totalAssets) * 100));
             
             if (progressFill) progressFill.style.width = percent + '%';
-            if (loadingText) loadingText.innerText = `Memuat aset... ${percent}%`;
+            if (loadingText) loadingText.innerText = `Membuka Undangan... ${percent}%`;
 
             // Saat seluruh aset selesai di-load 100%
             if (loadedCount >= totalAssets) {
