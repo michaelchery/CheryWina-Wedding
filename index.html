@@ -2,38 +2,574 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <!-- Meta Viewport Kompatibel Android & iOS (Mencegah Zoom Otomatis saat Input Teks di iPhone) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- Tag Spesifik iOS & Android Dynamic App Display -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="format-detection" content="telephone=no">
 
     <title>The Wedding of Chery & Wina</title>
 
-    <!-- Open Graph & Twitter Cards -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="The Wedding of Chery & Wina">
     <meta property="og:description" content="Kami mengundang Anda untuk berbagi kebahagiaan di hari pernikahan kami. Minggu, 18 Oktober 2026.">
     <meta property="og:image" content="https://files.catbox.moe/rp6t76.jpeg">
-    <meta property="og:url" content="https://domainanda.com">
 
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="The Wedding of Chery & Wina">
-    <meta name="twitter:description" content="Kami mengundang Anda untuk berbagi kebahagiaan di hari pernikahan kami. Minggu, 18 Oktober 2026.">
-    <meta name="twitter:image" content="https://files.catbox.moe/rp6t76.jpeg">
-    
-    <!-- PRELOAD ASET COVER & HERO -->
     <link rel="preload" as="image" href="https://files.catbox.moe/rp6t76.jpeg" fetchpriority="high">
     <link rel="preload" as="image" href="https://files.catbox.moe/3od4fc.JPG" fetchpriority="high">
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..700&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        :root {
+            --bg-dark: #12100e;
+            --bg-card: #1c1815;
+            --bg-light-card: #c4b5a5;
+            --text-gold: #c6a052;
+            --btn-gold: #cfa860;
+            --text-light: #f3efe6;
+            --text-muted: #d1c5b8;
+            --text-dark: #2a2421;
+            --font-cinzel: 'Cinzel', serif;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body.no-scroll {
+            overflow: hidden !important;
+            height: 100vh;
+            height: 100dvh;
+            touch-action: none;
+        }
+
+        html, body {
+            width: 100%;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .lazy-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .lazy-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .bg-slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            animation: zoomSlide 18s infinite ease-in-out;
+        }
+
+        .slide:nth-child(1) { background-image: url('https://files.catbox.moe/rpragk.jpg'); animation-delay: 0s; }
+        .slide:nth-child(2) { background-image: url('https://files.catbox.moe/3od4fc.JPG'); animation-delay: 6s; }
+        .slide:nth-child(3) { background-image: url('https://files.catbox.moe/4q7123.jpg'); animation-delay: 12s; }
+
+        @keyframes zoomSlide {
+            0% { opacity: 0; transform: scale(1); }
+            15% { opacity: 0.5; }
+            33% { opacity: 0.5; }
+            48% { opacity: 0; transform: scale(1.1); }
+            100% { opacity: 0; }
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 100vw;
+            margin: 0 auto;
+            position: relative;
+            overflow-x: hidden;
+            display: none; 
+        }
+
+        .main-wrapper.show-content { display: block; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        .glass-panel {
+            background: rgba(18, 16, 14, 0.7) !important;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+        }
+
+        #cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.8)), url('https://files.catbox.moe/rp6t76.jpeg') center/cover no-repeat;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            text-align: center;
+            transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+        }
+
+        #cover.opened {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .cover-tag {
+            font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 20px;
+        }
+
+        .cover-title {
+            font-family: var(--font-cinzel);
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            letter-spacing: 2px;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .cover-date {
+            font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+            color: #ffffff;
+            margin-bottom: 30px;
+        }
+
+        .cover-guest-box { margin-bottom: 30px; }
+
+        .guest-label {
+            font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+        }
+
+        .guest-name {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-weight: 700;
+            color: var(--text-gold);
+        }
+
+        .loader-container {
+            width: 100%;
+            max-width: 280px;
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #c6a052, #f5d77f);
+            border-radius: 10px;
+            transition: width 0.2s ease-out;
+        }
+
+        .loading-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .btn-open {
+            background-color: var(--btn-gold);
+            color: #ffffff;
+            border: none;
+            padding: 14px 42px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-open:disabled {
+            background-color: #4a4237;
+            color: #8c8275;
+            cursor: not-allowed;
+        }
+
+        .music-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(18,16,14,0.85)), url('https://files.catbox.moe/3od4fc.JPG') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 0;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 80vh;
+            width: 100%;
+        }
+
+        @media (min-width: 992px) {
+            .hero-content { flex-direction: row; align-items: flex-end; }
+        }
+
+        .hero-title {
+            font-family: var(--font-cinzel);
+            font-size: clamp(3rem, 7vw, 6.5rem);
+            line-height: 1.1;
+        }
+
+        .countdown-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .time-box span {
+            font-family: var(--font-serif);
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+        }
+
+        .couple-section { padding: 60px 0; }
+        .couple-wrapper { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        @media (min-width: 768px) { .couple-wrapper { grid-template-columns: 1fr 1fr; } }
+
+        .couple-card {
+            min-height: 50vh;
+            padding: 35px 25px;
+            border-radius: 16px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .groom-card { background-image: linear-gradient(to top, rgba(18,16,14,0.95), transparent), url('https://files.catbox.moe/4q7123.jpg'); }
+        .bride-card { background-image: linear-gradient(to top, rgba(18,16,14,0.95), transparent), url('https://files.catbox.moe/d620en.jpg'); }
+
+        .story-section { padding: 60px 0; text-align: center; }
+        .gallery-section { padding: 60px 0; }
+        
+        .swiper { width: 100%; height: 300px; border-radius: 12px; }
+        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
+    </style>
+</head>
+<body class="no-scroll">
+
+    <div class="bg-slideshow">
+        <div class="slide"></div>
+        <div class="slide"></div>
+        <div class="slide"></div>
+    </div>
+
+    <!-- COVER OVERLAY -->
+    <div id="cover">
+        <p class="cover-tag">THE WEDDING INVITATION</p>
+        <h1 class="cover-title">Chery & Wina</h1>
+        <p class="cover-date">Minggu, 18 Oktober 2026</p>
+
+        <div class="cover-guest-box">
+            <p class="guest-label">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
+            <p id="guestNameDisplay" class="guest-name">Tamu Undangan</p>
+        </div>
+
+        <button class="btn-open" id="openBtn" disabled>Mengecek Asset...</button>
+        
+        <div class="loader-container" id="loaderContainer">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
+            <span class="loading-text" id="loadingText">Membuka Undangan... 0%</span>
+        </div>
+    </div>
+
+    <div class="music-btn" id="musicBtn"><i class="fa-solid fa-music"></i></div>
+
+    <audio id="bgMusic" loop playsinline webkit-playsinline>
+        <source src="https://files.catbox.moe/2z2h9i.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="main-wrapper" id="mainContent">
+
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <div>
+                        <h1 class="hero-title">Chery<br>&<br>Wina</h1>
+                        <p style="letter-spacing: 4px; text-transform: uppercase;">Our Wedding Day</p>
+                    </div>
+
+                    <div>
+                        <div class="countdown-container">
+                            <div class="time-box"><span id="days">00</span><label>Days</label></div>
+                            <div class="time-box"><span id="hours">00</span><label>Hours</label></div>
+                            <div class="time-box"><span id="mins">00</span><label>Mins</label></div>
+                            <div class="time-box"><span id="secs">00</span><label>Secs</label></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="couple-section">
+            <div class="container">
+                <div class="couple-wrapper">
+                    <div class="couple-card groom-card">
+                        <h3 style="font-family: var(--font-serif); font-size: 2rem;">Michael Chery</h3>
+                    </div>
+                    <div class="couple-card bride-card">
+                        <h3 style="font-family: var(--font-serif); font-size: 2rem;">Wina Sigar</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+    // 1. Inisialisasi Variabel Global
+    const whitelistTamu = [
+        "jessica sangtana",
+        "willy sigar",
+        "yessica chandra",
+        "deni sigar",
+        "ricky hartono",
+        "darwin surya",
+        "gladys stanley khuang",
+        "hanna liang"
+    ];
+
+    let isUserInvited = true;
+    let isPlaying = false;
+    let audioCtxUnlocked = false;
+
+    const audio = document.getElementById('bgMusic');
+    const openBtn = document.getElementById('openBtn');
+    const musicBtn = document.getElementById('musicBtn');
+    const mainContent = document.getElementById('mainContent');
+
+    // DETEKSI KETAT PERANGKAT iOS & macOS (WebKit Engine)
+    const isIOSorMac = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                       (navigator.userAgent.includes("Mac") && "ontouchend" in document);
+
+    // KONTROL LOAD AUDIO: Di iOS/Mac diset 'none', perangkat lain diset 'auto'
+    if (isIOSorMac) {
+        audio.setAttribute('preload', 'none');
+    } else {
+        audio.setAttribute('preload', 'auto');
+    }
+
+    function toTitleCase(str) {
+        return str.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    }
+
+    // 2. Evaluasi Parameter URL (Guest Whitelist Check)
+    const urlParams = new URLSearchParams(window.location.search);
+    const guest = urlParams.get('to');
+
+    if (guest) {
+        const normalizedGuest = guest.trim().toLowerCase();
+        if (whitelistTamu.includes(normalizedGuest)) {
+            document.getElementById('guestNameDisplay').innerText = toTitleCase(normalizedGuest);
+        } else {
+            isUserInvited = false;
+            document.getElementById('guestNameDisplay').innerText = "You're Not Invited";
+            document.getElementById('guestNameDisplay').style.color = "#ff4d4d";
+        }
+    } else {
+        document.getElementById('guestNameDisplay').innerText = "Tamu Undangan";
+    }
+
+    // 3. Preloader Gambar (Memprioritaskan Aset Visual Agar Loading Bar Tetap Berjalan)
+    function initFullAssetPreloader() {
+        const extraImages = [
+            'https://files.catbox.moe/rp6t76.jpeg',
+            'https://files.catbox.moe/rpragk.jpg',
+            'https://files.catbox.moe/3od4fc.JPG',
+            'https://files.catbox.moe/4q7123.jpg',
+            'https://files.catbox.moe/d620en.jpg'
+        ];
+        
+        let loadedCount = 0;
+        const totalAssets = extraImages.length;
+        const progressFill = document.getElementById('progressFill');
+        const loadingText = document.getElementById('loadingText');
+        const loaderContainer = document.getElementById('loaderContainer');
+
+        function updateProgress() {
+            loadedCount++;
+            const percent = Math.min(100, Math.floor((loadedCount / totalAssets) * 100));
+            
+            if (progressFill) progressFill.style.width = percent + '%';
+            if (loadingText) loadingText.innerText = `Membuka Undangan... ${percent}%`;
+
+            if (loadedCount >= totalAssets) {
+                setTimeout(() => {
+                    if (loaderContainer) loaderContainer.style.display = 'none';
+                    if (isUserInvited) {
+                        openBtn.disabled = false;
+                        openBtn.innerText = "Buka Undangan";
+                    } else {
+                        openBtn.disabled = true;
+                        openBtn.innerText = "Undangan Tidak Ditemukan";
+                    }
+                }, 300);
+            }
+        }
+
+        extraImages.forEach(url => {
+            const img = new Image();
+            img.onload = updateProgress;
+            img.onerror = updateProgress;
+            img.src = url;
+        });
+    }
+
+    // Unlock Web Audio Context untuk Safari Engine
+    function unlockAudioContext() {
+        if (!audioCtxUnlocked) {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            audioCtxUnlocked = true;
+        }
+    }
+
+    // 4. Handler Membuka Undangan & Autoplay Lagu
+    function handleOpenInvitation() {
+        unlockAudioContext();
+        
+        mainContent.classList.add('show-content');
+        document.body.classList.remove('no-scroll');
+        document.getElementById('cover').classList.add('opened');
+
+        // KHUSUS iOS/Mac: Audio baru di-load SAAT tombol ini diklik
+        if (isIOSorMac) {
+            audio.load();
+        }
+
+        // Putar lagu
+        audio.play().then(() => {
+            isPlaying = true;
+        }).catch(err => {
+            console.log("Audio play error/prevented:", err);
+        });
+    }
+
+    openBtn.addEventListener('click', handleOpenInvitation);
+
+    musicBtn.addEventListener('click', () => {
+        unlockAudioContext();
+        if (isPlaying) { 
+            audio.pause(); 
+            isPlaying = false; 
+        } else { 
+            if (isIOSorMac && audio.readyState === 0) {
+                audio.load();
+            }
+            audio.play().then(() => {
+                isPlaying = true;
+            }); 
+        }
+    });
+
+    // Jalankan Preloader saat DOM siap
+    document.addEventListener("DOMContentLoaded", () => {
+        initFullAssetPreloader();
+    });
+
+    // Hitung Mundur (Countdown Timer)
+    const targetDate = new Date('October 18, 2026 13:00:00 GMT+0700').getTime();
+    setInterval(() => {
+        const now = new Date().getTime();
+        const diff = targetDate - now;
+        if (diff > 0) {
+            document.getElementById('days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+            document.getElementById('hours').innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+            document.getElementById('mins').innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            document.getElementById('secs').innerText = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+        }
+    }, 1000);
+    </script>
+</body>
+</html>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Swiper CSS (Slider Gallery) -->
