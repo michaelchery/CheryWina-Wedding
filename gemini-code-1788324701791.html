@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wedding of Chery & Wina</title>
+
+    <!-- Open Graph & Twitter Cards -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="The Wedding of Chery & Wina">
+    <meta property="og:description" content="Kami mengundang Anda untuk berbagi kebahagiaan di hari pernikahan kami. Minggu, 18 Oktober 2026.">
+    <meta property="og:image" content="https://files.catbox.moe/rp6t76.jpeg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..700&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Swiper CSS (Untuk Fitur Swipe Slider) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        :root {
+            --bg-dark: #12100e;
+            --bg-card: #1c1815;
+            --bg-light-card: #c4b5a5;
+            --text-gold: #c6a052;
+            --btn-gold: #cfa860;
+            --text-light: #f3efe6;
+            --text-muted: #d1c5b8;
+            --text-dark: #2a2421;
+            --font-cinzel: 'Cinzel', serif;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body.no-scroll {
+            overflow: hidden !important;
+            height: 100vh;
+            height: 100dvh;
+        }
+
+        html, body {
+            width: 100%;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+        }
+
+        .lazy-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .lazy-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 100vw;
+            margin: 0 auto;
+            position: relative;
+            overflow-x: hidden;
+            display: none; 
+        }
+
+        .main-wrapper.show-content {
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        .glass-panel {
+            background: rgba(18, 16, 14, 0.7) !important;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+        }
+
+        /* COVER OVERLAY */
+        #cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.8)), url('https://files.catbox.moe/rp6t76.jpeg') center/cover no-repeat;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            text-align: center;
+            transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+        }
+
+        #cover.opened {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .btn-open {
+            background-color: var(--btn-gold);
+            color: #ffffff;
+            border: none;
+            padding: 14px 42px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        /* SECTION GALLERY MOMENTS IN TIME */
+        .gallery-section {
+            min-height: 100vh;
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2.2rem, 4vw, 3.5rem);
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .sessions-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        @media (min-width: 768px) {
+            .sessions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .session-card {
+            background: rgba(28, 24, 21, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .session-title {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            color: var(--text-gold);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        /* SWIPER CONTAINER STYLES */
+        .swiper {
+            width: 100%;
+            height: 320px;
+            border-radius: 12px;
+        }
+
+        .swiper-slide {
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .swiper-slide:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Kustomisasi warna paginasi Swiper */
+        .swiper-pagination-bullet {
+            background: rgba(255, 255, 255, 0.5) !important;
+        }
+        .swiper-pagination-bullet-active {
+            background: var(--text-gold) !important;
+        }
+        .swiper-button-next, .swiper-button-prev {
+            color: var(--text-gold) !important;
+            transform: scale(0.6);
+        }
+
+        /* LIGHTBOX MODAL FULL SIZE FOTO */
+        .lightbox-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(10px);
+            z-index: 100000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .lightbox-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox-modal.active .lightbox-content {
+            transform: scale(1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 100001;
+        }
+    </style>
+</head>
+<body class="no-scroll">
+
+    <!-- COVER OVERLAY -->
+    <div id="cover">
+        <h1 style="font-family: var(--font-cinzel); font-size: 2.5rem; margin-bottom: 20px;">Chery & Wina</h1>
+        <button class="btn-open" id="openBtn">Buka Undangan</button>
+    </div>
+
+    <div class="main-wrapper" id="mainContent">
+
+        <!-- GALLERY SECTION (10 SESI SWIPABLE) -->
+        <section class="gallery-section">
+            <div class="container">
+                <h2 class="section-title lazy-element">Moments in Time</h2>
+                <p class="lazy-element" style="text-align: center; color: var(--text-muted); font-size: 0.95rem; margin-top: 5px;">
+                    Geser (*swipe*) untuk melihat momen pada tiap sesi & klik untuk ukuran penuh.
+                </p>
+
+                <div class="sessions-grid">
+
+                    <!-- SESI 1 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 1: The First Chapter</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/q8ks0g.webp" alt="Sesi 1 Foto 1"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/ou3hdv.webp" alt="Sesi 1 Foto 2"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/9yi6wn.webp" alt="Sesi 1 Foto 3"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 2 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 2: Pre-Wedding Casual</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/pk03is.webp" alt="Sesi 2 Foto 1"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/m15oen.webp" alt="Sesi 2 Foto 2"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/0150ow.webp" alt="Sesi 2 Foto 3"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 3 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 3: Sunset Memories</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/oymep2.webp" alt="Sesi 3 Foto 1"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/d49j3d.webp" alt="Sesi 3 Foto 2"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/rpragk.jpg" alt="Sesi 3 Foto 3"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 4 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 4: Engagement Day</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/3od4fc.JPG" alt="Sesi 4 Foto 1"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/4q7123.jpg" alt="Sesi 4 Foto 2"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/d620en.jpg" alt="Sesi 4 Foto 3"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 5 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 5: Formal Look</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/q8ks0g.webp" alt="Sesi 5 Foto 1"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/pk03is.webp" alt="Sesi 5 Foto 2"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 6 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 6: Outdoor Shoot</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/ou3hdv.webp" alt="Sesi 6 Foto 1"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/m15oen.webp" alt="Sesi 6 Foto 2"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 7 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 7: Studio Gallery</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/9yi6wn.webp" alt="Sesi 7 Foto 1"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/0150ow.webp" alt="Sesi 7 Foto 2"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 8 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 8: Black & White</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/oymep2.webp" alt="Sesi 8 Foto 1"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/d49j3d.webp" alt="Sesi 8 Foto 2"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 9 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 9: Candid Moments</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/pk03is.webp" alt="Sesi 9 Foto 1"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/0150ow.webp" alt="Sesi 9 Foto 2"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 10 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 10: Special Highlights</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/3od4fc.JPG" alt="Sesi 10 Foto 1"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/rpragk.jpg" alt="Sesi 10 Foto 2"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- MODAL LIGHTBOX FULLSIZE FOTO -->
+    <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightboxImg" src="" alt="Fullsize Photo">
+    </div>
+
+    <!-- Swiper JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+    // PRELOAD FOTO AUTOMATIS
+    function preloadAllImages() {
+        const images = document.querySelectorAll('.swiper-slide img');
+        images.forEach(img => {
+            const src = img.getAttribute('src');
+            if (src) {
+                const tempImage = new Image();
+                tempImage.src = src;
+            }
+        });
+    }
+
+    // INTERSECTION OBSERVER
+    const lazyObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.lazy-element').forEach(el => lazyObserver.observe(el));
+
+    // INISIALISASI SWIPER JS UNTUK SELURUH SESI
+    const swiper = new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        spaceBetween: 15,
+        loop: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+    });
+
+    // OPEN COVER
+    document.getElementById('openBtn').addEventListener('click', () => {
+        document.getElementById('mainContent').classList.add('show-content');
+        document.body.classList.remove('no-scroll');
+        document.getElementById('cover').classList.add('opened');
+
+        // Autoload/cache semua foto slider di background
+        preloadAllImages();
+
+        setTimeout(() => {
+            document.querySelectorAll('.lazy-element').forEach(el => lazyObserver.observe(el));
+        }, 100);
+    });
+
+    // LIGHTBOX FULLSIZE
+    function openLightbox(element) {
+        const imgSrc = element.querySelector('img').src;
+        document.getElementById('lightboxImg').src = imgSrc;
+        document.getElementById('lightboxModal').classList.add('active');
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightboxModal').classList.remove('active');
+    }
+    </script>
+</body>
+</html>
