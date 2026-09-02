@@ -58,6 +58,1668 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent; /* Hilangkan highlight biru/abu-abu saat tombol diklik di mobile */
+        }
+
+        body.no-scroll {
+            overflow: hidden !important;
+            height: 100vh;
+            height: 100dvh;
+            touch-action: none;
+            -webkit-overflow-scrolling: none;
+        }
+
+        html, body {
+            width: 100%;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            -webkit-overflow-scrolling: touch; /* Smooth scroll di iOS Safari */
+        }
+
+        /* EFEK REVEAL UNTUK ELEMEN & TEKS */
+        .lazy-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .lazy-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* BACKGROUND SLIDESHOW */
+        .bg-slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            animation: zoomSlide 18s infinite ease-in-out;
+        }
+
+        .slide:nth-child(1) {
+            background-image: url('https://files.catbox.moe/rpragk.jpg');
+            animation-delay: 0s;
+        }
+
+        .slide:nth-child(2) {
+            background-image: url('https://files.catbox.moe/3od4fc.JPG');
+            animation-delay: 6s;
+        }
+
+        .slide:nth-child(3) {
+            background-image: url('https://files.catbox.moe/4q7123.jpg');
+            animation-delay: 12s;
+        }
+
+        @keyframes zoomSlide {
+            0% { opacity: 0; transform: scale(1); }
+            15% { opacity: 0.5; }
+            33% { opacity: 0.5; }
+            48% { opacity: 0; transform: scale(1.1); }
+            100% { opacity: 0; }
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 100vw;
+            margin: 0 auto;
+            position: relative;
+            overflow-x: hidden;
+            display: none; 
+        }
+
+        .main-wrapper.show-content {
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        .glass-panel {
+            background: rgba(18, 16, 14, 0.7) !important;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+        }
+
+        /* COVER OVERLAY */
+        #cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.8)), url('https://files.catbox.moe/rp6t76.jpeg') center/cover no-repeat;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            text-align: center;
+            transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+        }
+
+        #cover.opened {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .cover-tag {
+            font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .cover-title {
+            font-family: var(--font-cinzel);
+            font-weight: 500;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            letter-spacing: 2px;
+            line-height: 1.2;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .cover-date {
+            font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+            color: #ffffff;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .cover-guest-box { margin-bottom: 30px; }
+
+        .guest-label {
+            font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+            font-weight: 300;
+        }
+
+        .guest-name {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-weight: 700;
+            color: var(--text-gold);
+            letter-spacing: 0.5px;
+        }
+
+        /* PRELOADER LOADING BAR STYLES */
+        .loader-container {
+            width: 100%;
+            max-width: 280px;
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #c6a052, #f5d77f);
+            border-radius: 10px;
+            transition: width 0.2s ease-out;
+            box-shadow: 0 0 10px rgba(198, 160, 82, 0.8);
+        }
+
+        .loading-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.85);
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .btn-open {
+            background-color: var(--btn-gold);
+            color: #ffffff;
+            border: none;
+            padding: 14px 42px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-open:hover {
+            background-color: #b89350;
+            transform: translateY(-2px);
+        }
+
+        .btn-open:disabled {
+            background-color: #4a4237;
+            color: #8c8275;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .music-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(18,16,14,0.85)), url('https://files.catbox.moe/3od4fc.JPG') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 0;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 80vh;
+            width: 100%;
+        }
+
+        @media (min-width: 992px) {
+            .hero-content {
+                flex-direction: row;
+                align-items: flex-end;
+            }
+        }
+
+        .hero-title {
+            font-family: var(--font-cinzel);
+            font-size: clamp(3rem, 7vw, 6.5rem);
+            line-height: 1.1;
+            font-weight: 400;
+        }
+
+        .hero-subtitle {
+            font-size: 0.95rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 15px;
+            color: var(--text-muted);
+        }
+
+        .countdown-wrapper { margin-top: 40px; }
+
+        .scroll-indicator {
+            text-align: left;
+            margin-bottom: 20px;
+            opacity: 0.6;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5deg);}
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            flex-wrap: nowrap;
+        }
+
+        .time-box {
+            text-align: center;
+            min-width: 65px;
+        }
+
+        .time-box span {
+            font-family: var(--font-serif);
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            display: block;
+            line-height: 1;
+        }
+
+        .time-box label {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 5px;
+            display: block;
+        }
+
+        .btn-save-date {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s ease;
+        }
+
+        .btn-save-date:hover { background: rgba(255,255,255,0.3); }
+
+        /* GROOM & BRIDE SECTION */
+        .couple-section {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 0;
+            background-color: transparent;
+        }
+
+        .couple-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .couple-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .couple-wrapper { 
+                grid-template-columns: 1fr 1fr; 
+                gap: 40px;
+            }
+        }
+
+        .couple-card {
+            position: relative;
+            min-height: 60vh;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 35px 25px;
+            border-radius: 16px;
+            overflow: hidden;
+            background-repeat: no-repeat;
+            background-position: center top;
+            background-size: cover;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        @media (min-width: 768px) {
+            .couple-card {
+                height: 70vh;
+                min-height: 520px;
+                background-size: cover; 
+                background-position: center 20%;
+                padding: 40px 35px;
+            }
+        }
+
+        .groom-card {
+            background-image: linear-gradient(to top, rgba(18,16,14,0.95) 20%, rgba(18,16,14,0.2) 60%, transparent 100%), url('https://files.catbox.moe/4q7123.jpg');
+        }
+
+        .bride-card {
+            background-image: linear-gradient(to top, rgba(18,16,14,0.95) 20%, rgba(18,16,14,0.2) 60%, transparent 100%), url('https://files.catbox.moe/d620en.jpg');
+        }
+
+        .couple-name {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 3vw, 2.7rem);
+            font-weight: 400;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .couple-parents {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            color: var(--text-gold);
+            font-size: 0.9rem;
+            text-decoration: none;
+            font-weight: 500;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        /* STORY SECTION */
+        .story-section {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .story-box {
+            padding: 50px 30px;
+            width: 100%;
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2.2rem, 4vw, 3.5rem);
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+
+        .story-text {
+            font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+            color: var(--text-muted);
+            font-style: italic;
+            line-height: 1.9;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        /* GALLERY SECTION (10 SESI SWIPABLE) */
+        .gallery-section {
+            min-height: 100vh;
+            padding: 80px 0;
+        }
+
+        .sessions-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        @media (min-width: 768px) {
+            .sessions-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .session-card {
+            background: rgba(28, 24, 21, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .session-title {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            color: var(--text-gold);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .swiper {
+            width: 100%;
+            height: 300px;
+            border-radius: 12px;
+        }
+
+        .swiper-slide {
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .swiper-slide:hover img {
+            transform: scale(1.05);
+        }
+
+        .swiper-pagination-bullet { background: rgba(255, 255, 255, 0.5) !important; }
+        .swiper-pagination-bullet-active { background: var(--text-gold) !important; }
+        .swiper-button-next, .swiper-button-prev { color: var(--text-gold) !important; transform: scale(0.6); }
+
+        /* LIGHTBOX MODAL FULL SIZE FOTO */
+        .lightbox-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 100000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .lightbox-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox-modal.active .lightbox-content { transform: scale(1); }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 100001;
+        }
+
+        /* EVENT SECTION */
+        .event-section {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            padding: 60px 0;
+        }
+
+        .event-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 50px;
+            padding: 40px;
+            width: 100%;
+        }
+
+        @media (min-width: 992px) {
+            .event-container {
+                grid-template-columns: 1fr 1fr;
+                align-items: center;
+            }
+        }
+
+        .date-display {
+            display: flex;
+            align-items: baseline;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .date-number {
+            font-family: var(--font-serif);
+            font-size: clamp(4rem, 6vw, 6rem);
+            line-height: 1;
+        }
+
+        .date-detail { font-size: 1.05rem; }
+
+        .dresscode-card {
+            background-color: var(--bg-light-card);
+            color: var(--text-dark);
+            padding: 40px;
+            border-radius: 16px;
+        }
+
+        .dresscode-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+
+        .color-palette {
+            display: flex;
+            gap: 12px;
+            margin: 15px 0 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .color-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        .color-dot.forbidden { border: 2px solid #8c2a2a; }
+
+        .color-dot.forbidden::after {
+            content: "\f05e";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #b82525;
+            font-size: 1.2rem;
+            text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+        }
+
+        .house-rules-note {
+            background-color: rgba(42, 36, 33, 0.08);
+            border-left: 3px solid var(--text-dark);
+            padding: 15px;
+            margin-top: 25px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .house-rules-note strong { color: #2a2421; }
+
+        .location-box {
+            margin-top: 30px;
+            font-size: 0.95rem;
+        }
+
+        .btn-location {
+            display: inline-block;
+            background: var(--text-dark);
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-top: 18px;
+            transition: background 0.3s;
+        }
+
+        .btn-location:hover { background: #000; }
+
+        /* RSVP SECTION */
+        .rsvp-section {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            padding: 60px 0;
+        }
+
+        .interactive-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 50px;
+            align-items: start;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .interactive-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .gift-box-card {
+            padding: 40px 30px;
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .btn-view-bank {
+            background-color: var(--btn-gold);
+            color: #fff;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .btn-view-bank:hover { background-color: #b89350; }
+
+        .rsvp-form-card {
+            padding: 35px 30px;
+            margin-top: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-control {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-family: var(--font-sans);
+            /* Ukuran font 16px mencegah iPhone/Safari otomatis zoom-in ketika fokus ke input */
+            font-size: 16px; 
+            transition: border-color 0.3s;
+            -webkit-appearance: none;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--text-gold);
+        }
+
+        select.form-control option {
+            background: var(--bg-card);
+            color: #ffffff;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-submit-rsvp {
+            width: 100%;
+            background-color: var(--btn-gold);
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-submit-rsvp:hover { background-color: #b89350; }
+
+        .form-status {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            text-align: center;
+            display: none;
+        }
+
+        /* Modal Rekening */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 35px 25px;
+            border-radius: 16px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content { transform: scale(1); }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: var(--text-muted);
+            font-size: 1.6rem;
+            cursor: pointer;
+        }
+
+        .bank-card {
+            background: linear-gradient(135deg, #2a2421, #12100e);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+
+        .bank-logo {
+            height: 35px;
+            margin-bottom: 10px;
+            filter: brightness(0) invert(1);
+        }
+
+        .btn-copy {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: background 0.3s;
+        }
+
+        .btn-copy:hover { background: rgba(255,255,255,0.25); }
+
+        /* CLOSING THANK YOU */
+        .thankyou-section {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(18,16,14,0.85)), url('https://files.catbox.moe/rpragk.jpg') center/cover no-repeat;
+            padding: 40px 20px;
+        }
+
+        .thankyou-card {
+            padding: 50px 30px;
+            max-width: 700px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="no-scroll">
+
+    <!-- Background Slideshow -->
+    <div class="bg-slideshow">
+        <div class="slide"></div>
+        <div class="slide"></div>
+        <div class="slide"></div>
+    </div>
+
+    <!-- COVER OVERLAY -->
+    <div id="cover">
+        <p class="cover-tag lazy-element">THE WEDDING INVITATION</p>
+        <h1 class="cover-title lazy-element">Chery & Wina</h1>
+        <p class="cover-date lazy-element">Minggu, 18 Oktober 2026</p>
+
+        <div class="cover-guest-box lazy-element">
+            <p class="guest-label">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
+            <p id="guestNameDisplay" class="guest-name">Tamu Undangan</p>
+        </div>
+
+        <!-- TOMBOL BUKA DENGAN PRELOADER LOADING BAR -->
+        <button class="btn-open lazy-element" id="openBtn" disabled>Buka Undangan</button>
+        
+        <div class="loader-container lazy-element" id="loaderContainer">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
+            <span class="loading-text" id="loadingText">Membuka Undangan... 0%</span>
+        </div>
+    </div>
+
+    <!-- Floating Music Button -->
+    <div class="music-btn" id="musicBtn"><i class="fa-solid fa-music"></i></div>
+
+    <!-- Audio Player (Playsinline & Webkit-compatible) -->
+    <audio id="bgMusic" loop preload="auto" playsinline webkit-playsinline>
+        <source src="https://files.catbox.moe/2z2h9i.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="main-wrapper" id="mainContent">
+
+        <!-- 1. Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="lazy-element">
+                        <h1 class="hero-title">Chery<br>&<br>Wina</h1>
+                        <p class="hero-subtitle">Our Wedding Day</p>
+                    </div>
+
+                    <div class="countdown-wrapper lazy-element">
+                        <div class="scroll-indicator">
+                            <i class="fa-solid fa-angles-down"></i>
+                        </div>
+
+                        <div class="countdown-container">
+                            <div class="time-box"><span id="days">00</span><label>Days</label></div>
+                            <div class="time-box"><span id="hours">00</span><label>Hours</label></div>
+                            <div class="time-box"><span id="mins">00</span><label>Mins</label></div>
+                            <div class="time-box"><span id="secs">00</span><label>Secs</label></div>
+                        </div>
+
+                        <a href="#" class="btn-save-date"><i class="fa-regular fa-calendar-check"></i> Save the Date</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. GROOM & BRIDE SECTION -->
+        <section class="couple-section">
+            <div class="container">
+                <div class="couple-header lazy-element">
+                    <h2 class="section-title">Groom & Bride</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Mempelai Pria & Mempelai Wanita</p>
+                </div>
+
+                <div class="couple-wrapper">
+                    <div class="couple-card groom-card lazy-element">
+                        <div>
+                            <h3 class="couple-name">Michael Chery</h3>
+                            <p class="couple-parents">Precious Son of<br>Bapak Herman & Ibu Lia</p>
+                            <a href="https://instagram.com/michaelchery" target="_blank" rel="noopener noreferrer" class="social-link">
+                                <i class="fa-brands fa-instagram"></i> @michaelchery
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="couple-card bride-card lazy-element">
+                        <div>
+                            <h3 class="couple-name">Wina Sigar</h3>
+                            <p class="couple-parents">Precious Daughter of<br>Bapak Willy & Ibu Hanna</p>
+                            <a href="https://instagram.com/wina.wu" target="_blank" rel="noopener noreferrer" class="social-link">
+                                <i class="fa-brands fa-instagram"></i> @wina.wu
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Story Section -->
+        <section class="story-section">
+            <div class="container">
+                <div class="glass-panel story-box lazy-element">
+                    <h2 class="section-title">Our Story</h2>
+                    <p class="story-text">
+                        "Pada suatu hari, udah gitu aja WKWK CANDA."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. GALLERY SECTION (10 SESI SWIPABLE + POPUP FULLSIZE) -->
+        <section class="gallery-section">
+            <div class="container">
+                <h2 class="section-title lazy-element" style="text-align: center;">Moments in Time</h2>
+                <p class="lazy-element" style="text-align: center; color: var(--text-muted); font-size: 0.95rem; margin-top: 5px;">
+                    Geser (*swipe*) untuk melihat foto pada tiap sesi & klik untuk ukuran penuh.
+                </p>
+
+                <div class="sessions-grid">
+
+                    <!-- SESI 1 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 1: The First Chapter</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/q8ks0g.webp" alt="Sesi 1 Foto 1" loading="lazy"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/ou3hdv.webp" alt="Sesi 1 Foto 2" loading="lazy"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/9yi6wn.webp" alt="Sesi 1 Foto 3" loading="lazy"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 2 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 2: Pre-Wedding Casual</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/pk03is.webp" alt="Sesi 2 Foto 1" loading="lazy"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/m15oen.webp" alt="Sesi 2 Foto 2" loading="lazy"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/0150ow.webp" alt="Sesi 2 Foto 3" loading="lazy"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 3 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 3: Sunset Memories</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/oymep2.webp" alt="Sesi 3 Foto 1" loading="lazy"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/d49j3d.webp" alt="Sesi 3 Foto 2" loading="lazy"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/rpragk.jpg" alt="Sesi 3 Foto 3" loading="lazy"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 4 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 4: Engagement Day</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/3od4fc.JPG" alt="Sesi 4 Foto 1" loading="lazy"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/4q7123.jpg" alt="Sesi 4 Foto 2" loading="lazy"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/d620en.jpg" alt="Sesi 4 Foto 3" loading="lazy"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 5 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 5: Formal Look</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/q8ks0g.webp" alt="Sesi 5 Foto 1" loading="lazy"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/pk03is.webp" alt="Sesi 5 Foto 2" loading="lazy"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 6 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 6: Outdoor Shoot</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/ou3hdv.webp" alt="Sesi 6 Foto 1" loading="lazy"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/m15oen.webp" alt="Sesi 6 Foto 2" loading="lazy"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 7 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 7: Studio Gallery</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/9yi6wn.webp" alt="Sesi 7 Foto 1" loading="lazy"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/0150ow.webp" alt="Sesi 7 Foto 2" loading="lazy"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 8 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 8: Black & White</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/oymep2.webp" alt="Sesi 8 Foto 1" loading="lazy"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/d49j3d.webp" alt="Sesi 8 Foto 2" loading="lazy"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 9 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 9: Candid Moments</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/pk03is.webp" alt="Sesi 9 Foto 1" loading="lazy"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/0150ow.webp" alt="Sesi 9 Foto 2" loading="lazy"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                    <!-- SESI 10 -->
+                    <div class="session-card lazy-element">
+                        <h3 class="session-title">Session 10: Special Highlights</h3>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/3od4fc.JPG" alt="Sesi 10 Foto 1" loading="lazy"></div>
+                                <div class="swiper-slide" onclick="openLightbox(this)"><img src="https://files.catbox.moe/rpragk.jpg" alt="Sesi 10 Foto 2" loading="lazy"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Event Section -->
+        <section class="event-section">
+            <div class="container">
+                <div class="glass-panel event-container lazy-element">
+                    <div>
+                        <i class="fa-solid fa-location-dot" style="font-size: 1.8rem;"></i>
+                        <h2 class="section-title" style="margin-top: 10px;">Intimate Holy Matrimony</h2>
+
+                        <div class="date-display">
+                            <div class="date-number">18</div>
+                            <div class="date-detail">
+                                <strong>Sunday, October 2026</strong><br>
+                                13:00 WIB - Selesai
+                            </div>
+                        </div>
+
+                        <div class="location-box">
+                            <strong>Vihara Buddhayana Surabaya</strong><br>
+                            <span style="font-size: 0.9rem; color: #d0c8be;">Jl. Raya Putat Gede No. 1, Surabaya, Jawa Timur</span><br>
+                            <a href="https://maps.app.goo.gl/SNNfBkLjBTexWJct7" target="_blank" rel="noopener noreferrer" class="btn-location">Google Maps Location</a>
+                        </div>
+                    </div>
+
+                    <div class="dresscode-card">
+                        <p class="dresscode-title">Dress Code Recommendation:</p>
+                        <p style="font-size: 0.85rem; opacity: 0.8;">Any kind of Earth tone / Pastel</p>
+                        
+                        <div class="color-palette">
+                            <div class="color-dot" style="background-color: #a3b19b;" title="Sage Green"></div>
+                            <div class="color-dot" style="background-color: #7c8879;" title="Olive Green"></div>
+                            <div class="color-dot" style="background-color: #d6a39b;" title="Dusty Pink"></div>
+                            <div class="color-dot" style="background-color: #d8c3b0;" title="Beige"></div>
+                            <div class="color-dot" style="background-color: #9e7358;" title="Warm Brown"></div>
+                            <div class="color-dot" style="background-color: #8c8275;" title="Taupe"></div>
+                        </div>
+
+                        <p class="dresscode-title" style="margin-top: 20px;">Avoid Colors:</p>
+                        <p style="font-size: 0.85rem; opacity: 0.8;">Mohon untuk tidak mengenakan warna berikut:</p>
+
+                        <div class="color-palette">
+                            <div class="color-dot forbidden" style="background-color: #000000;" title="Hitam (Avoid)"></div>
+                            <div class="color-dot forbidden" style="background-color: #ffffff;" title="Putih (Avoid)"></div>
+                        </div>
+
+                        <div class="house-rules-note">
+                            <strong>📌 Adults-Only Celebration</strong><br>
+                            (*no kids allowed*)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Wedding Gift & RSVP Form -->
+        <section class="rsvp-section">
+            <div class="container">
+                <div class="interactive-grid">
+                    <div class="lazy-element">
+                        <h2 class="section-title">Wedding Gift</h2>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">
+                            Doa restu Anda adalah hadiah terindah bagi kami. Namun jika Anda ingin memberikan hadiah, Anda dapat menggunakan tombol di bawah ini:
+                        </p>
+
+                        <div class="glass-panel gift-box-card">
+                            <i class="fa-solid fa-gift" style="font-size: 2.2rem; color: var(--text-gold);"></i>
+                            <p style="font-size: 0.95rem; margin-top: 10px;">Cashless / Digital</p>
+                            <button class="btn-view-bank" onclick="openModal()">Lihat Rekening</button>
+                        </div>
+                    </div>
+
+                    <div class="lazy-element">
+                        <h2 class="section-title">RSVP & Wishes</h2>
+                        <div class="glass-panel rsvp-form-card">
+                            <form id="rsvpForm">
+                                <div class="form-group">
+                                    <label for="nama">Nama Lengkap</label>
+                                    <input type="text" id="nama" name="nama" class="form-control" placeholder="Nama Anda" required readonly>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="kehadiran">Konfirmasi Kehadiran</label>
+                                    <select id="kehadiran" name="kehadiran" class="form-control" required>
+                                        <option value="" disabled selected>Pilih Kehadiran</option>
+                                        <option value="Hadir">Hadir</option>
+                                        <option value="Tidak Hadir">Tidak Hadir</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="jumlah_tamu">Jumlah Tamu</label>
+                                    <select id="jumlah_tamu" name="jumlah_tamu" class="form-control" required>
+                                        <option value="1 Orang">1 Orang</option>
+                                        <option value="2 Orang">2 Orang</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ucapan">Pesan & Doa Ucapan</label>
+                                    <textarea id="ucapan" name="ucapan" class="form-control" placeholder="Tuliskan harapan & ucapan doa Anda..." required></textarea>
+                                </div>
+
+                                <button type="submit" class="btn-submit-rsvp" id="btnSubmit">Kirim Konfirmasi</button>
+                                <div class="form-status" id="formStatus"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal Popup Rekening -->
+        <div class="modal-overlay" id="bankModal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+                <h3 style="font-family: var(--font-serif); margin-bottom: 10px; color: var(--text-gold);">Rekening Digital</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Silakan salin nomor rekening berikut:</p>
+
+                <div class="bank-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA Logo" class="bank-logo" loading="lazy" decoding="async">
+                    <p style="font-size: 1.3rem; font-family: monospace; letter-spacing: 2px; margin: 8px 0;" id="bcaAcc">3831638557</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">a.n Wina Sigar</p>
+                    <button class="btn-copy" onclick="copyAccount()">Salin Nomor Rekening</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Closing Thank You -->
+        <section class="thankyou-section">
+            <div class="glass-panel thankyou-card lazy-element">
+                <p style="letter-spacing: 3px; font-size: 0.9rem; text-transform: uppercase; color: var(--text-gold);">Thank You</p>
+                <h2 style="font-family: var(--font-cinzel); font-size: clamp(1.8rem, 4.5vw, 3.5rem); margin: 15px 0; color: #fff; font-weight: 200; white-space: nowrap;">Chery & Wina</h2>
+                <p style="font-size: 0.95rem; color: var(--text-muted); font-style: italic;">
+                    "Minta angpao yang banyakkkkk."
+                </p>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- MODAL LIGHTBOX FOTO GALERI -->
+    <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightboxImg" src="" alt="Fullsize Photo">
+    </div>
+
+    <!-- Swiper JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+    // Audio Context unlocker untuk Safari iOS & Android Mobile
+    let audioCtxUnlocked = false;
+    function unlockAudioContext() {
+        if (!audioCtxUnlocked) {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            audioCtxUnlocked = true;
+        }
+    }
+
+    // FUNGSI EAGER LOAD PRELOADER KHUSUS GAMBAR (0 - 100%)
+    function initFullAssetPreloader() {
+        const imageUrls = Array.from(document.querySelectorAll('img'))
+            .map(img => img.src)
+            .filter(src => src !== "");
+
+        const extraImages = [
+            'https://files.catbox.moe/rp6t76.jpeg',
+            'https://files.catbox.moe/rpragk.jpg',
+            'https://files.catbox.moe/3od4fc.JPG',
+            'https://files.catbox.moe/4q7123.jpg',
+            'https://files.catbox.moe/d620en.jpg'
+        ];
+
+        // Hanya preload gambar untuk kalkulasi progress bar
+        const allAssets = Array.from(new Set([...imageUrls, ...extraImages]));
+        
+        let loadedCount = 0;
+        const totalAssets = allAssets.length;
+        
+        const progressFill = document.getElementById('progressFill');
+        const loadingText = document.getElementById('loadingText');
+        const openBtn = document.getElementById('openBtn');
+        const loaderContainer = document.getElementById('loaderContainer');
+
+        function updateProgress() {
+            loadedCount++;
+            const percent = Math.min(100, Math.floor((loadedCount / totalAssets) * 100));
+            
+            if (progressFill) progressFill.style.width = percent + '%';
+            if (loadingText) loadingText.innerText = `Membuka Undangan... ${percent}%`;
+
+            if (loadedCount >= totalAssets) {
+                setTimeout(() => {
+                    if (loaderContainer) loaderContainer.style.display = 'none';
+                    if (openBtn && isUserInvited) {
+                        openBtn.disabled = false;
+                        openBtn.innerText = "Buka Undangan";
+                    }
+                }, 300);
+            }
+        }
+
+        if (totalAssets === 0) {
+            if (loaderContainer) loaderContainer.style.display = 'none';
+            if (openBtn && isUserInvited) openBtn.disabled = false;
+            return;
+        }
+
+        allAssets.forEach(url => {
+            const img = new Image();
+            img.onload = updateProgress;
+            img.onerror = updateProgress; // Tetap hitung walau ada yang error
+            img.src = url;
+        });
+    }
+
+    // INTERSECTION OBSERVER UNTUK ANIMASI FADE-IN
+    const lazyObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); 
+            }
+        });
+    }, {
+        root: null,
+        threshold: 0.15 
+    });
+
+    document.querySelectorAll('.lazy-element').forEach(element => {
+        lazyObserver.observe(element);
+    });
+
+    // INISIALISASI SWIPER JS UNTUK 10 SESI
+    const swiper = new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        spaceBetween: 15,
+        loop: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+    });
+
+    // Whitelist Tamu
+    const whitelistTamu = [
+        "jessica sangtana",
+        "willy sigar",
+        "yessica chandra",
+        "deni sigar",
+        "ricky hartono",
+        "darwin surya",
+        "gladys stanley khuang",
+        "hanna liang"
+    ];
+
+    function toTitleCase(str) {
+        return str.toLowerCase().split(' ').map(word => {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+        }).join(' ');
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const guest = urlParams.get('to');
+
+    const audio = document.getElementById('bgMusic');
+    const openBtn = document.getElementById('openBtn');
+    const musicBtn = document.getElementById('musicBtn');
+    const mainContent = document.getElementById('mainContent');
+    const inputNama = document.getElementById('nama');
+    let isPlaying = false;
+    let isUserInvited = true;
+
+    if (guest) {
+        const normalizedGuest = guest.trim().toLowerCase();
+
+        if (whitelistTamu.includes(normalizedGuest)) {
+            const formattedName = toTitleCase(normalizedGuest);
+            document.getElementById('guestNameDisplay').innerText = formattedName;
+            inputNama.value = formattedName;
+            inputNama.readOnly = true;
+        } else {
+            isUserInvited = false;
+            document.getElementById('guestNameDisplay').innerText = "You're Not Invited";
+            document.getElementById('guestNameDisplay').style.color = "#ff4d4d";
+            
+            openBtn.innerText = "Undangan Tidak Ditemukan";
+            openBtn.disabled = true;
+            openBtn.style.opacity = "0.5";
+            openBtn.style.cursor = "not-allowed";
+        }
+    } else {
+        document.getElementById('guestNameDisplay').innerText = "Tamu Undangan";
+        inputNama.value = "";
+        inputNama.readOnly = false;
+        inputNama.required = true;
+        inputNama.placeholder = "Masukkan nama Anda...";
+    }
+
+    // Jalankan Preloader Gambar saat DOM Siap
+    document.addEventListener("DOMContentLoaded", () => {
+        initFullAssetPreloader();
+    });
+
+    // TRIGGER BUKA COVER (Bisa lewat Click & Touchstart untuk iOS)
+    function handleOpenInvitation() {
+        unlockAudioContext();
+        
+        mainContent.classList.add('show-content');
+        document.body.classList.remove('no-scroll');
+        
+        document.getElementById('cover').classList.add('opened');
+
+        setTimeout(() => {
+            document.querySelectorAll('.lazy-element').forEach(element => {
+                lazyObserver.observe(element);
+            });
+        }, 100);
+
+        // Load & Putar Audio setelah gesture klik pengguna (Aman untuk iOS/Safari)
+        audio.load();
+        audio.play().then(() => {
+            isPlaying = true;
+        }).catch(err => {
+            console.log("Autoplay blocked by browser policy:", err);
+        });
+
+        // Request Fullscreen yang aman untuk iOS Safari
+        const elem = document.documentElement;
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen().catch(err => console.log(err));
+        } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+        }
+    }
+
+    openBtn.addEventListener('click', handleOpenInvitation);
+
+    musicBtn.addEventListener('click', () => {
+        unlockAudioContext();
+        if (isPlaying) { 
+            audio.pause(); 
+            isPlaying = false; 
+        } else { 
+            audio.play(); 
+            isPlaying = true; 
+        }
+    });
+
+    // Countdown
+    const targetDate = new Date('October 18, 2026 13:00:00 GMT+0700').getTime();
+    setInterval(() => {
+        const now = new Date().getTime();
+        const diff = targetDate - now;
+        if (diff > 0) {
+            document.getElementById('days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+            document.getElementById('hours').innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+            document.getElementById('mins').innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            document.getElementById('secs').innerText = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+        }
+    }, 1000);
+
+    // Modal Lightbox Foto Galeri
+    function openLightbox(element) {
+        const imgSrc = element.querySelector('img').src;
+        document.getElementById('lightboxImg').src = imgSrc;
+        document.getElementById('lightboxModal').classList.add('active');
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightboxModal').classList.remove('active');
+    }
+
+    // Modal Rekening
+    function openModal() {
+        document.getElementById('bankModal').classList.add('active');
+    }
+
+    function closeModal() {
+        document.getElementById('bankModal').classList.remove('active');
+    }
+
+    // Penanganan Copy Text yang Aman untuk Seluruh Mobile Browser (Termasuk iOS Safari)
+    function copyAccount() {
+        const textToCopy = document.getElementById('bcaAcc').innerText;
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert('Nomor rekening berhasil disalin!');
+            }).catch(() => {
+                fallbackCopyTextToClipboard(textToCopy);
+            });
+        } else {
+            fallbackCopyTextToClipboard(textToCopy);
+        }
+    }
+
+    function fallbackCopyTextToClipboard(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            alert('Nomor rekening berhasil disalin!');
+        } catch (err) {
+            alert('Gagal menyalin otomatis. Silakan salin manual.');
+        }
+        document.body.removeChild(textArea);
+    }
+
+    // Google Sheets Form Submit
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzfdLugafL4x8l3mf5zeI8xX3v5laV9e0vscIjy7WLPJvTPs1mpC39abyds-za66MMbRA/exec';
+    const form = document.getElementById('rsvpForm');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const formStatus = document.getElementById('formStatus');
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        btnSubmit.disabled = true;
+        btnSubmit.innerText = 'Mengirim...';
+        formStatus.style.display = 'block';
+        formStatus.style.color = '#c6a052';
+        formStatus.innerText = 'Sedang mengirim konfirmasi...';
+
+        fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+            .then(response => {
+                btnSubmit.disabled = false;
+                btnSubmit.innerText = 'Kirim Konfirmasi';
+                formStatus.style.color = '#4CAF50';
+                formStatus.innerText = 'Terima kasih! Konfirmasi kehadiran berhasil terkirim.';
+                form.reset();
+            })
+            .catch(error => {
+                btnSubmit.disabled = false;
+                btnSubmit.innerText = 'Kirim Konfirmasi';
+                formStatus.style.color = '#F44336';
+                formStatus.innerText = 'Gagal mengirim. Silakan coba lagi.';
+                console.error('Error!', error.message);
+            });
+    });
+    </script>
+</body>
+</html>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Swiper CSS (Slider Gallery) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        :root {
+            --bg-dark: #12100e;
+            --bg-card: #1c1815;
+            --bg-light-card: #c4b5a5;
+            --text-gold: #c6a052;
+            --btn-gold: #cfa860;
+            --text-light: #f3efe6;
+            --text-muted: #d1c5b8;
+            --text-dark: #2a2421;
+            --font-cinzel: 'Cinzel', serif;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             -webkit-tap-highlight-color: transparent; /* Hilangkan hilight biru/abu-abu saat tombol diklik di mobile */
         }
 
