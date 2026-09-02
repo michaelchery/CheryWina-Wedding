@@ -652,6 +652,17 @@
             gap: 50px;
             padding: 40px;
             width: 100%;
+            
+            /* Background Foto + Overlay Tint Gelap agar Teks Tetap Terbaca */
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(18, 16, 14, 0.75)), 
+                    url('https://files.catbox.moe/kfipkn.jpg') center/cover no-repeat !important;
+        
+            /* Efek Kaca (Glassmorphism) */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
         @media (min-width: 992px) {
