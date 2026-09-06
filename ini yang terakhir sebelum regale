@@ -19,6 +19,7 @@
     
     <!-- PRELOAD ASET COVER & HERO -->
     <link rel="preload" as="image" href="https://files.catbox.moe/rp6t76.jpeg" fetchpriority="high">
+    <link rel="preload" as="image" href="https://files.catbox.moe/yzcbhv.jpg" fetchpriority="high">
     <link rel="preload" as="image" href="https://files.catbox.moe/3od4fc.JPG" fetchpriority="high">
 
     <!-- Google Fonts -->
@@ -148,7 +149,7 @@
         }
 
         .glass-panel {
-            background: rgba(18, 16, 14, 0.7) !important;
+            background: rgba(18, 16, 14, 0.7);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 255, 255, 0.12);
@@ -517,8 +518,12 @@
         }
 
         .story-box {
-            padding: 50px 30px;
-            width: 100%;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://files.catbox.moe/yzcbhv.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            padding: 40px 20px;
+            border-radius: 15px;
         }
 
         .section-title {
@@ -529,15 +534,22 @@
         }
 
         .story-text {
-            font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+            font-size: clamp(0.7rem, 2.8vw, 1.15rem);
             color: var(--text-muted);
             font-style: italic;
-            line-height: 1.9;
+            line-height: 2;
             margin: 0 auto;
-            max-width: 800px;
+            max-width: 100%;
+            white-space: nowrap;
         }
 
-        /* GALLERY SECTION (10 SESI SWIPABLE) */
+        @media (max-width: 576px) {
+            .story-box {
+                padding: 35px 10px !important;
+            }
+        }
+
+        /* GALLERY SECTION */
         .gallery-section {
             min-height: 100vh;
             padding: 80px 0;
@@ -552,6 +564,13 @@
 
         @media (min-width: 768px) {
             .sessions-grid { grid-template-columns: repeat(2, 1fr); }
+            
+            .session-card.video-card {
+                grid-column: 1 / -1;
+                justify-self: center;
+                width: 100%;
+                max-width: 580px;
+            }
         }
 
         .session-card {
@@ -597,7 +616,7 @@
         .swiper-pagination-bullet-active { background: var(--text-gold) !important; }
         .swiper-button-next, .swiper-button-prev { color: var(--text-gold) !important; transform: scale(0.6); }
 
-        /* LIGHTBOX MODAL FULL SIZE FOTO */
+        /* LIGHTBOX MODAL WITH SWIPER SUPPORT */
         .lightbox-modal {
             position: fixed;
             top: 0;
@@ -622,18 +641,6 @@
             pointer-events: auto;
         }
 
-        .lightbox-content {
-            max-width: 90vw;
-            max-height: 90vh;
-            object-fit: contain;
-            border-radius: 8px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.8);
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-
-        .lightbox-modal.active .lightbox-content { transform: scale(1); }
-
         .lightbox-close {
             position: absolute;
             top: 20px;
@@ -642,6 +649,28 @@
             font-size: 2.5rem;
             cursor: pointer;
             z-index: 100001;
+            line-height: 1;
+        }
+
+        .modalSwiper .swiper-slide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+        }
+
+        .modalSwiper .swiper-slide img {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }
+
+        .modalSwiper .swiper-button-next, 
+        .modalSwiper .swiper-button-prev {
+            color: #ffffff !important;
+            transform: scale(0.8);
         }
 
         /* EVENT SECTION */
@@ -654,17 +683,13 @@
         }
 
         .event-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
             padding: 40px;
             width: 100%;
-            
-            /* Background Foto + Overlay Tint Gelap */
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(18, 16, 14, 0.75)), 
-                    url('https://files.catbox.moe/kfipkn.jpg') center/cover no-repeat !important;
-        
-            /* Efek Kaca (Glassmorphism) */
+                        url('https://files.catbox.moe/kfipkn.jpg') center/cover no-repeat;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -672,11 +697,27 @@
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
+        .events-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            width: 100%;
+        }
+
         @media (min-width: 992px) {
-            .event-container {
+            .events-grid {
                 grid-template-columns: 1fr 1fr;
-                align-items: center;
+                gap: 30px;
             }
+        }
+
+        .event-card {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
         }
 
         .date-display {
@@ -694,14 +735,13 @@
             padding: 0;
         }
 
-       .date-detail {
+        .date-detail {
             font-size: 0.95rem;
-            line-height: 1.4;}
+            line-height: 1.4;
         }
         
-        /* KOTAK DRESS CODE TRANSPARAN (DIPERBARUI) */
         .dresscode-card {
-            background: rgba(0, 0, 0, 0.25) !important;
+            background: rgba(0, 0, 0, 0.25);
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -748,9 +788,8 @@
             text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
         }
 
-        /* HOUSE RULES SUB-CARD TRANSPARAN (DIPERBARUI) */
         .house-rules-note {
-            background-color: rgba(0, 0, 0, 0.2) !important;
+            background-color: rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -933,6 +972,8 @@
             position: relative;
             transform: scale(0.9);
             transition: transform 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-overlay.active .modal-content { transform: scale(1); }
@@ -1015,7 +1056,6 @@
             <p id="guestNameDisplay" class="guest-name">Tamu Undangan</p>
         </div>
 
-        <!-- TOMBOL BUKA DENGAN PRELOADER LOADING BAR -->
         <button class="btn-open lazy-element" id="openBtn" disabled>Buka Undangan</button>
         
         <div class="loader-container lazy-element" id="loaderContainer">
@@ -1026,7 +1066,7 @@
         </div>
     </div>
 
-    <!-- Floating Music Button (Default: Icon Musik Dicoret) -->
+    <!-- Floating Music Button -->
     <div class="music-btn" id="musicBtn"><i class="fa-solid fa-volume-xmark" id="musicIcon"></i></div>
 
     <!-- Audio Player -->
@@ -1057,7 +1097,9 @@
                             <div class="time-box"><span id="secs">00</span><label>Secs</label></div>
                         </div>
 
-                        <a href="#" class="btn-save-date"><i class="fa-regular fa-calendar-check"></i> Save the Date</a>
+                        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=The+Wedding+of+Chery+%26+Wina+%28Holy+Matrimony%29&dates=20261018T130000/20261018T143000&ctz=Asia/Jakarta&details=Holy+Matrimony+Chery+%26+Wina+di+Vihara+Buddhayana+Surabaya&location=Vihara+Buddhayana+Surabaya%2C+Jl.+Raya+Putat+Gede+No.+1%2C+Surabaya%2C+Jawa+Timur" target="_blank" rel="noopener noreferrer" class="btn-save-date">
+                            <i class="fa-regular fa-calendar-check"></i> Save the Date
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1099,15 +1141,23 @@
         <section class="story-section">
             <div class="container">
                 <div class="glass-panel story-box lazy-element">
-                    <h2 class="section-title">Our Story</h2>
-                    <p class="story-text">
-                        "Pada suatu hari, udah gitu aja WKWK CANDA."
-                    </p>
+                    <h2 class="section-title" style="color: #ffffff;">Our Story</h2>
+                    <div class="story-text" style="color: #ffffff;">
+                        <p>"Connected long before they even knew",</p>
+                        <p>They walked the same old paths from days of old.</p>
+                        <p>When Chery found his match, the feeling grew,</p>
+                        <p>A simple story, quietly retold.</p>
+                        <br>
+                        <p>Calm Libra meets the warmth of Leo’s side,</p>
+                        <p>No need to wait when everything feels right.</p>
+                        <p>Within a year, they set a date with pride,</p>
+                        <p>Two matching pieces fitting neat and tight.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 4. GALLERY SECTION (10 SESI SWIPABLE + POPUP FULLSIZE) -->
+        <!-- 4. GALLERY SECTION -->
         <section class="gallery-section">
             <div class="container">
                 <h2 class="section-title lazy-element" style="text-align: center;">Moments in Time</h2>
@@ -1260,19 +1310,21 @@
                             <div class="swiper-button-prev"></div>
                         </div>
                     </div>
-                <!-- KARTU VIDEO HIGHLIGHT -->
-                <div class="session-card lazy-element">
-                    <h3 class="session-title">Wedding Teaser Video</h3>
-                    <div style="width: 100%; height: 300px; border-radius: 12px; overflow: hidden; background: #000;">
-                        <video 
-                            controls 
-                            preload="none" 
-                            poster="https://files.catbox.moe/rpragk.jpg" 
-                            style="width: 100%; height: 100%; object-fit: cover;">
-                            <source src="https://files.catbox.moe/ftu7kf.mp4" type="video/mp4">
-                            Browser Anda tidak mendukung pemutaran video.
-                        </video>
+
+                    <!-- KARTU VIDEO HIGHLIGHT -->
+                    <div class="session-card video-card lazy-element">
+                        <h3 class="session-title">Wedding Teaser Video</h3>
+                        <div style="width: 100%; height: 300px; border-radius: 12px; overflow: hidden; background: #000;">
+                            <iframe
+                                src="https://www.youtube.com/embed/l3FV7pnTNeo?si=m1X7QivOWvqGqxib" 
+                                title="Wedding Teaser Video"
+                                style="width: 100%; height: 100%; border: none;" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                             </iframe>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </section>
@@ -1281,26 +1333,46 @@
         <section class="event-section">
             <div class="container">
                 <div class="glass-panel event-container lazy-element">
-                    <div>
-                        <i class="fa-solid fa-location-dot" style="font-size: 1.8rem;"></i>
-                        <h2 class="section-title" style="margin-top: 10px;">Intimate Holy Matrimony</h2>
+                    <div class="events-grid">
+                        <div class="event-card">
+                            <i class="fa-solid fa-dharmachakra" style="font-size: 1.8rem; color: var(--text-gold);"></i>
+                            <h2 class="section-title" style="margin-top: 10px; font-size: 1.8rem;">Holy Matrimony</h2>
 
-                        <div class="date-display">
-                            <div class="date-number">18</div>
-                            <div class="date-detail">
-                                <strong>Sunday, October 2026</strong><br>
-                                13:00 WIB - Selesai
+                            <div class="date-display">
+                                <div class="date-number">18</div>
+                                <div class="date-detail">
+                                    <strong>Sunday, October 2026</strong><br>
+                                    13:00 - 14:30 WIB
+                                </div>
+                            </div>
+
+                            <div class="location-box">
+                                <strong>Vihara Buddhayana Surabaya</strong><br>
+                                <span style="font-size: 0.85rem; color: #d0c8be;">Jl. Raya Putat Gede No. 1, Surabaya, Jawa Timur</span><br>
+                                <a href="https://maps.app.goo.gl/SNNfBkLjBTexWJct7" target="_blank" class="btn-location">Google Maps Location</a>
                             </div>
                         </div>
 
-                        <div class="location-box">
-                            <strong>Vihara Buddhayana Surabaya</strong><br>
-                            <span style="font-size: 0.9rem; color: #d0c8be;">Jl. Raya Putat Gede No. 1, Surabaya, Jawa Timur</span><br>
-                            <a href="https://maps.app.goo.gl/SNNfBkLjBTexWJct7" target="_blank" class="btn-location">Google Maps Location</a>
+                        <div class="event-card">
+                            <i class="fa-solid fa-champagne-glasses" style="font-size: 1.8rem; color: var(--text-gold);"></i>
+                            <h2 class="section-title" style="margin-top: 10px; font-size: 1.8rem;">Wedding Reception</h2>
+
+                            <div class="date-display">
+                                <div class="date-number">22</div>
+                                <div class="date-detail">
+                                    <strong>Thursday, October 2026</strong><br>
+                                    18:30 WIB - Selesai
+                                </div>
+                            </div>
+
+                            <div class="location-box">
+                                <strong>REGALE International Convention Centre</strong><br>
+                                <span style="font-size: 0.85rem; color: #d0c8be;">Jl. H. Adam Malik No. 66-68, Medan, Sumatera Utara</span><br>
+                                <a href="https://maps.google.com/?q=Regale+International+Convention+Centre+Medan" target="_blank" class="btn-location">Google Maps Location</a>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Kotak Transparan Dress Code & House Rules -->
                     <div class="dresscode-card">
                         <p class="dresscode-title">Dress Code Recommendation:</p>
                         <p style="font-size: 0.85rem; opacity: 0.85;">Any kind of Earth tone / Pastel</p>
@@ -1327,6 +1399,7 @@
                             (*no kids allowed*)
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
@@ -1361,17 +1434,30 @@
                                     <label for="kehadiran">Konfirmasi Kehadiran</label>
                                     <select id="kehadiran" name="kehadiran" class="form-control" required>
                                         <option value="" disabled selected>Pilih Kehadiran</option>
-                                        <option value="Hadir">Hadir</option>
-                                        <option value="Tidak Hadir">Tidak Hadir</option>
+                                        <option value="Hadir">Ya, Saya/Kami Hadir</option>
+                                        <option value="Tidak Hadir">Mohon Maaf, Berhalangan Hadir</option>
                                     </select>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="jumlah_tamu">Jumlah Tamu</label>
-                                    <select id="jumlah_tamu" name="jumlah_tamu" class="form-control" required>
-                                        <option value="1 Orang">1 Orang</option>
-                                        <option value="2 Orang">2 Orang</option>
-                                    </select>
+                                <!-- Kolom Sesi Acara & Jumlah Tamu dengan Logika Kondisional Dinamis -->
+                                <div id="conditionalFields">
+                                    <div class="form-group">
+                                        <label for="sesi_acara">Pilih Sesi Acara Kehadiran</label>
+                                        <select id="sesi_acara" name="sesi_acara" class="form-control">
+                                            <option value="" disabled selected>Pilih Sesi Acara</option>
+                                            <option value="Holy Matrimony">Holy Matrimony (18 Okt 2026 - Surabaya)</option>
+                                            <option value="Wedding Reception">Wedding Reception (22 Okt 2026 - Medan)</option>
+                                            <option value="Keduanya">Keduanya</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="jumlah_tamu">Jumlah Tamu</label>
+                                        <select id="jumlah_tamu" name="jumlah_tamu" class="form-control">
+                                            <option value="1 Orang">1 Orang</option>
+                                            <option value="2 Orang">2 Orang</option>
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -1397,9 +1483,16 @@
 
                 <div class="bank-card">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA Logo" class="bank-logo" loading="lazy" decoding="async">
-                    <p style="font-size: 1.3rem; font-family: monospace; letter-spacing: 2px; margin: 8px 0;" id="bcaAcc">3831638557</p>
+                    <p style="font-size: 1.3rem; font-family: monospace; letter-spacing: 2px; margin: 8px 0;" id="bcaAcc1">6170512624</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">a.n Michael Chery</p>
+                    <button class="btn-copy" onclick="copyAccount('bcaAcc1')">Salin Nomor Rekening</button>
+                </div>
+
+                <div class="bank-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA Logo" class="bank-logo" loading="lazy" decoding="async">
+                    <p style="font-size: 1.3rem; font-family: monospace; letter-spacing: 2px; margin: 8px 0;" id="bcaAcc2">3831638557</p>
                     <p style="font-size: 0.85rem; color: var(--text-muted);">a.n Wina Sigar</p>
-                    <button class="btn-copy" onclick="copyAccount()">Salin Nomor Rekening</button>
+                    <button class="btn-copy" onclick="copyAccount('bcaAcc2')">Salin Nomor Rekening</button>
                 </div>
             </div>
         </div>
@@ -1417,17 +1510,23 @@
 
     </div>
 
-    <!-- MODAL LIGHTBOX FOTO GALERI -->
-    <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox()">
-        <span class="lightbox-close">&times;</span>
-        <img class="lightbox-content" id="lightboxImg" src="" alt="Fullsize Photo">
+    <!-- MODAL LIGHTBOX FOTO GALERI (DENGAN DUKUNGAN SWIPER DRAG/SWIPE) -->
+    <div class="lightbox-modal" id="lightboxModal">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <div class="swiper modalSwiper" style="width: 100%; height: 100%;">
+            <div class="swiper-wrapper" id="modalSwiperWrapper">
+                <!-- Slide gambar diisi secara dinamis lewat JavaScript -->
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
     </div>
 
     <!-- Swiper JS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
-    // FUNGSI EAGER LOAD PRELOADER ALL ASSETS (0 - 100%)
+    // PRELOADER ASSET PERANGKAT APPLE vs OTHERS
     function initFullAssetPreloader() {
         const isAppleDevice = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) || 
                               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -1488,7 +1587,7 @@
         }
     }
 
-    // INTERSECTION OBSERVER UNTUK ANIMASI FADE-IN
+    // INTERSECTION OBSERVER ANIMASI REVEAL
     const lazyObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -1505,7 +1604,7 @@
         lazyObserver.observe(element);
     });
 
-    // INISIALISASI SWIPER JS UNTUK 10 SESI
+    // INISIALISASI SWIPER JS
     const swiper = new Swiper(".mySwiper", {
         slidesPerView: 1,
         spaceBetween: 15,
@@ -1522,15 +1621,43 @@
 
     // Whitelist Tamu
     const whitelistTamu = [
-        "jessica sangtana",
         "willy sigar",
+        "hanna liang",
+        "neslia",
+        "hermanto chery",
         "yessica chandra",
         "deni sigar",
-        "ricky hartono",
+        "teman wina",
+        "susi junianti",
+        "will",
+        "cocofarm",
+        "nad",
+        "dr farrah raktion",
+        "claudia wijaya",
+        "nidya julinda",
+        "siska dwi",
+        "novi efita",
+        "putri arifia",
+        "aryani ika",
+        "sueb",
+        "widya ayu",
+        "aster fransiska",
+        "intan diah",
+        "ratih ayu",
+        "linda megawati",
+        "annisa intan",
+        "mega",
+        "riski",
+        "indi",
+        "dian charoline",
+        "kaori bunga",
+        "firda",
+        "teman chery",
         "ganda tan",
+        "jessica sangtana",
+        "ricky hartono",
         "darwin surya",
         "gladys stanley khuang",
-        "hanna liang"
     ];
 
     function toTitleCase(str) {
@@ -1548,7 +1675,9 @@
     const musicIcon = document.getElementById('musicIcon');
     const mainContent = document.getElementById('mainContent');
     const inputNama = document.getElementById('nama');
+    const teaserVideo = document.getElementById('teaserVideo');
     let isPlaying = false;
+    let wasPlayingBeforeVideo = false;
     let isUserInvited = true;
 
     if (guest) {
@@ -1581,7 +1710,26 @@
         initFullAssetPreloader();
     });
 
-    // TRIGGER BUKA COVER & PLAY AUDIO
+    // LOGIKA KONDISIONAL DINAMIS RSVP KEHADIRAN & SESI
+    const kehadiranSelect = document.getElementById('kehadiran');
+    const conditionalFields = document.getElementById('conditionalFields');
+    const sesiAcaraSelect = document.getElementById('sesi_acara');
+    const jumlahTamuSelect = document.getElementById('jumlah_tamu');
+
+    kehadiranSelect.addEventListener('change', function() {
+        if (this.value === 'Tidak Hadir') {
+            conditionalFields.style.display = 'none';
+            sesiAcaraSelect.removeAttribute('required');
+            jumlahTamuSelect.removeAttribute('required');
+            sesiAcaraSelect.value = '';
+        } else {
+            conditionalFields.style.display = 'block';
+            sesiAcaraSelect.setAttribute('required', 'true');
+            jumlahTamuSelect.setAttribute('required', 'true');
+        }
+    });
+
+    // BUKA COVER & PLAY AUDIO
     openBtn.addEventListener('click', () => {
         mainContent.classList.add('show-content');
         document.body.classList.remove('no-scroll');
@@ -1596,10 +1744,10 @@
 
         audio.play().then(() => {
             isPlaying = true;
-            musicIcon.className = 'fa-solid fa-music'; // Ikon berubah ke musik aktif
+            musicIcon.className = 'fa-solid fa-music';
         }).catch(() => {
             isPlaying = false;
-            musicIcon.className = 'fa-solid fa-volume-xmark'; // Jika gagal autoplay
+            musicIcon.className = 'fa-solid fa-volume-xmark';
         });
 
         const elem = document.documentElement;
@@ -1612,20 +1760,50 @@
         }
     });
 
-    // TOGGLE MUSIK + GANTI IKON
+    // TOGGLE MUSIK
     musicBtn.addEventListener('click', () => {
         if (isPlaying) { 
             audio.pause(); 
             isPlaying = false; 
-            musicIcon.className = 'fa-solid fa-volume-xmark'; // Ikon dicoret (nonaktif)
+            musicIcon.className = 'fa-solid fa-volume-xmark';
         } else { 
             audio.play(); 
             isPlaying = true; 
-            musicIcon.className = 'fa-solid fa-music'; // Ikon musik aktif
+            musicIcon.className = 'fa-solid fa-music';
         }
     });
 
-    // Countdown
+    // SINKRONISASI AUDIO & VIDEO
+    if (teaserVideo) {
+        teaserVideo.addEventListener('play', () => {
+            if (isPlaying) {
+                wasPlayingBeforeVideo = true;
+                audio.pause();
+                isPlaying = false;
+                musicIcon.className = 'fa-solid fa-volume-xmark';
+            }
+        });
+
+        teaserVideo.addEventListener('pause', () => {
+            if (wasPlayingBeforeVideo) {
+                audio.play();
+                isPlaying = true;
+                musicIcon.className = 'fa-solid fa-music';
+                wasPlayingBeforeVideo = false;
+            }
+        });
+
+        teaserVideo.addEventListener('ended', () => {
+            if (wasPlayingBeforeVideo) {
+                audio.play();
+                isPlaying = true;
+                musicIcon.className = 'fa-solid fa-music';
+                wasPlayingBeforeVideo = false;
+            }
+        });
+    }
+
+    // COUNTDOWN TIMER
     const targetDate = new Date('October 18, 2026 13:00:00 GMT+0700').getTime();
     setInterval(() => {
         const now = new Date().getTime();
@@ -1638,33 +1816,76 @@
         }
     }, 1000);
 
-    // Modal Lightbox Foto Galeri
+    // MODAL LIGHTBOX FOTO SWIPER INTEGRATION
+    let modalSwiper = null;
+
+    function initModalSwiper() {
+        if (!modalSwiper) {
+            modalSwiper = new Swiper(".modalSwiper", {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: true,
+                navigation: {
+                    nextEl: ".modalSwiper .swiper-button-next",
+                    prevEl: ".modalSwiper .swiper-button-prev",
+                },
+                keyboard: {
+                    enabled: true,
+                },
+            });
+        }
+    }
+
     function openLightbox(element) {
-        const imgSrc = element.querySelector('img').src;
-        document.getElementById('lightboxImg').src = imgSrc;
-        document.getElementById('lightboxModal').classList.add('active');
+        const currentSwiperWrapper = element.closest('.swiper-wrapper');
+        const images = currentSwiperWrapper.querySelectorAll('img');
+        const clickedImgSrc = element.querySelector('img').src;
+        
+        const modalWrapper = document.getElementById('modalSwiperWrapper');
+        modalWrapper.innerHTML = ''; 
+
+        let initialIndex = 0;
+
+        images.forEach((img, index) => {
+            if (img.src === clickedImgSrc) {
+                initialIndex = index;
+            }
+            const slide = document.createElement('div');
+            slide.className = 'swiper-slide';
+            slide.innerHTML = `<img src="${img.src}" alt="Fullsize Photo">`;
+            modalWrapper.appendChild(slide);
+        });
+
+        const lightboxModal = document.getElementById('lightboxModal');
+        lightboxModal.classList.add('active');
+
+        initModalSwiper();
+        modalSwiper.update();
+        modalSwiper.slideToLoop(initialIndex, 0); 
     }
 
     function closeLightbox() {
         document.getElementById('lightboxModal').classList.remove('active');
     }
 
-    // Modal Rekening
+    // MODAL REKENING
     function openModal() {
         document.getElementById('bankModal').classList.add('active');
     }
 
     function closeModal() {
+        document.getElementById('bankModal').classList.add('active');
         document.getElementById('bankModal').classList.remove('active');
     }
 
-    function copyAccount() {
-        navigator.clipboard.writeText(document.getElementById('bcaAcc').innerText);
-        alert('Nomor rekening berhasil disalin!');
+    function copyAccount(elementId) {
+        const accNumber = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(accNumber);
+        alert('Nomor rekening ' + accNumber + ' berhasil disalin!');
     }
 
-    // Google Sheets Form Submit
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzfdLugafL4x8l3mf5zeI8xX3v5laV9e0vscIjy7WLPJvTPs1mpC39abyds-za66MMbRA/exec';
+    // GOOGLE SHEETS FORM SUBMIT
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbx-oIdXxqdyu3KG5tbxCDXY-Y_NdpP7vAYPQwHTOZeywa_pSzNk8Z0Upc-uk7rOYM9svw/exec';
     const form = document.getElementById('rsvpForm');
     const btnSubmit = document.getElementById('btnSubmit');
     const formStatus = document.getElementById('formStatus');
@@ -1677,20 +1898,41 @@
         formStatus.style.color = '#c6a052';
         formStatus.innerText = 'Sedang mengirim konfirmasi...';
 
-        fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-            .then(response => {
-                btnSubmit.disabled = false;
-                btnSubmit.innerText = 'Kirim Konfirmasi';
-                formStatus.style.color = '#4CAF50';
-                formStatus.innerText = 'Terima kasih! Konfirmasi kehadiran berhasil terkirim.';
-                form.reset();
-            })
-            .catch(error => {
-                btnSubmit.disabled = false;
-                btnSubmit.innerText = 'Kirim Konfirmasi';
-                formStatus.style.color = '#F44336';
-                formStatus.innerText = 'Gagal mengirim. Silakan coba lagi.';
-                console.error('Error!', error.message);
+        // Membaca nilai form secara eksplisit ke dalam objek JavaScript
+        const formDataObj = {
+            nama: document.getElementById('nama').value,
+            kehadiran: document.getElementById('kehadiran').value,
+            sesi_acara: document.getElementById('kehadiran').value === 'Tidak Hadir' ? '-' : document.getElementById('sesi_acara').value,
+            jumlah_tamu: document.getElementById('kehadiran').value === 'Tidak Hadir' ? '-' : document.getElementById('jumlah_tamu').value,
+            ucapan: document.getElementById('ucapan').value
+        };
+
+        fetch(scriptURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8' // Menggunakan text/plain agar terhindar dari CORS preflight error di Apps Script
+            },
+            body: JSON.stringify(formDataObj)
+        })
+        .then(response => response.json())
+        .then(result => {
+            btnSubmit.disabled = false;
+            btnSubmit.innerText = 'Kirim Konfirmasi';
+            formStatus.style.color = '#4CAF50';
+            formStatus.innerText = 'Terima kasih! Konfirmasi kehadiran berhasil terkirim.';
+        
+            form.reset();
+            document.getElementById('conditionalFields').style.display = 'block';
+            if (guest && whitelistTamu.includes(guest.trim().toLowerCase())) {
+                inputNama.value = toTitleCase(guest.trim());
+            }
+    })
+    .catch(error => {
+        btnSubmit.disabled = false;
+        btnSubmit.innerText = 'Kirim Konfirmasi';
+        formStatus.style.color = '#F44336';
+        formStatus.innerText = 'Gagal mengirim. Silakan coba lagi.';
+        console.error('Error!', error);
             });
     });
     </script>
