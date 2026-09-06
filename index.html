@@ -1884,8 +1884,8 @@
         alert('Nomor rekening ' + accNumber + ' berhasil disalin!');
     }
 
-    // GOOGLE SHEETS FORM SUBMIT
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbx-oIdXxqdyu3KG5tbxCDXY-Y_NdpP7vAYPQwHTOZeywa_pSzNk8Z0Upc-uk7rOYM9svw/exec';
+    // GOOGLE SHEETS FORM SUBMIT (STANDAR FORMDATA)
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzKEY6QWJLWmSH6egewu_KaDiH9LI3ZwHXmNJYK3m80YCvCD2q2tTOfAZ6iredVnsd6AA/exec'; 
     const form = document.getElementById('rsvpForm');
     const btnSubmit = document.getElementById('btnSubmit');
     const formStatus = document.getElementById('formStatus');
@@ -1898,21 +1898,18 @@
         formStatus.style.color = '#c6a052';
         formStatus.innerText = 'Sedang mengirim konfirmasi...';
 
-        // Membaca nilai form secara eksplisit ke dalam objek JavaScript
-        const formDataObj = {
-            nama: document.getElementById('nama').value,
-            kehadiran: document.getElementById('kehadiran').value,
-            sesi_acara: document.getElementById('kehadiran').value === 'Tidak Hadir' ? '-' : document.getElementById('sesi_acara').value,
-            jumlah_tamu: document.getElementById('kehadiran').value === 'Tidak Hadir' ? '-' : document.getElementById('jumlah_tamu').value,
-            ucapan: document.getElementById('ucapan').value
-        };
+        // Membuat objek FormData langsung dari elemen form
+        const formData = new FormData(form);
 
-        fetch(scriptURL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'text/plain;charset=utf-8' // Menggunakan text/plain agar terhindar dari CORS preflight error di Apps Script
-            },
-            body: JSON.stringify(formDataObj)
+        // Jika memilih Tidak Hadir, pastikan data sesi dan jumlah dikirim sebagai strip (-)
+        if (document.getElementById('kehadiran').value === 'Tidak Hadir') {
+            formData.set('sesi_acara', '-');
+            formData.set('jumlah_tamu', '-');
+        }
+
+        fetch(scriptURL, { 
+            method: 'POST', 
+            body: formData 
         })
         .then(response => response.json())
         .then(result => {
@@ -1926,14 +1923,14 @@
             if (guest && whitelistTamu.includes(guest.trim().toLowerCase())) {
                 inputNama.value = toTitleCase(guest.trim());
             }
-    })
-    .catch(error => {
-        btnSubmit.disabled = false;
-        btnSubmit.innerText = 'Kirim Konfirmasi';
-        formStatus.style.color = '#F44336';
-        formStatus.innerText = 'Gagal mengirim. Silakan coba lagi.';
-        console.error('Error!', error);
-            });
+        })
+        .catch(error => {
+            btnSubmit.disabled = false;
+            btnSubmit.innerText = 'Kirim Konfirmasi';
+            formStatus.style.color = '#F44336';
+            formStatus.innerText = 'Gagal mengirim. Silakan coba lagi.';
+            console.error('Error!', error);
+        });
     });
     </script>
 </body>
