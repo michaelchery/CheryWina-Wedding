@@ -524,6 +524,9 @@
             color: #ffffff;
             padding: 40px 20px;
             border-radius: 15px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .section-title {
@@ -534,18 +537,30 @@
         }
 
         .story-text {
-            font-size: clamp(0.7rem, 2.8vw, 1.15rem);
-            color: var(--text-muted);
             font-style: italic;
-            line-height: 2;
+            line-height: 1.8;
             margin: 0 auto;
             max-width: 100%;
+        }
+
+        /* Styling khusus Our Story agar tetap satu baris di setiap device */
+        .story-line {
             white-space: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            text-align: center;
+            font-size: clamp(0.75rem, 1.8vw, 1.15rem);
+            margin-bottom: 6px;
+            scrollbar-width: none;
+        }
+
+        .story-line::-webkit-scrollbar {
+            display: none;
         }
 
         @media (max-width: 576px) {
             .story-box {
-                padding: 35px 10px !important;
+                padding: 35px 15px !important;
             }
         }
 
@@ -587,6 +602,10 @@
             color: var(--text-gold);
             margin-bottom: 12px;
             text-align: center;
+            font-weight: 300; /* Membuat huruf jauh lebih tipis/light */
+            opacity: 0.85;     /* Membuat warna sedikit lebih transparan/lembut */
+            /* Tambahan efek blur halus pada teks jika diinginkan */
+            text-shadow: 0 0 1px rgba(198, 160, 82, 0.3);
         }
 
         .swiper {
@@ -673,7 +692,7 @@
             transform: scale(0.8);
         }
 
-        /* EVENT SECTION */
+        /* EVENT SECTION (TERPISAH) */
         .event-section {
             min-height: 100vh;
             min-height: 100dvh;
@@ -739,6 +758,27 @@
             font-size: 0.95rem;
             line-height: 1.4;
         }
+
+        /* DRESSCODE & HOUSE RULES SECTION */
+        .dresscode-section {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            padding: 60px 0;
+        }
+
+        .dresscode-container {
+            padding: 40px;
+            width: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(18, 16, 14, 0.75)), 
+                        url('https://files.catbox.moe/rpragk.jpg') center/cover no-repeat;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
         
         .dresscode-card {
             background: rgba(0, 0, 0, 0.25);
@@ -748,6 +788,8 @@
             color: #ffffff;
             padding: 40px;
             border-radius: 20px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .dresscode-title {
@@ -1034,6 +1076,14 @@
             max-width: 700px;
             width: 100%;
         }
+
+        .michaelchery-branding {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            background-color: var(--bg-dark);
+        }
     </style>
 </head>
 <body class="no-scroll">
@@ -1143,15 +1193,15 @@
                 <div class="glass-panel story-box lazy-element">
                     <h2 class="section-title" style="color: #ffffff;">Our Story</h2>
                     <div class="story-text" style="color: #ffffff;">
-                        <p>"Connected long before they even knew",</p>
-                        <p>They walked the same old paths from days of old.</p>
-                        <p>When Chery found his match, the feeling grew,</p>
-                        <p>A simple story, quietly retold.</p>
+                        <div class="story-line">"Connected long before they even knew",</div>
+                        <div class="story-line">They walked the same old paths from days of old.</div>
+                        <div class="story-line">When Chery found his match, the feeling grew,</div>
+                        <div class="story-line">A simple story, quietly retold.</div>
                         <br>
-                        <p>Calm Libra meets the warmth of Leo’s side,</p>
-                        <p>No need to wait when everything feels right.</p>
-                        <p>Within a year, they set a date with pride,</p>
-                        <p>Two matching pieces fitting neat and tight.</p>
+                        <div class="story-line">Calm Libra meets the warmth of Leo’s side,</div>
+                        <div class="story-line">No need to wait when everything feels right.</div>
+                        <div class="story-line">Within a year, they set a date with pride,</div>
+                        <div class="story-line">Two matching pieces fitting neat and tight.</div>
                     </div>
                 </div>
             </div>
@@ -1316,7 +1366,8 @@
                         <h3 class="session-title">Wedding Teaser Video</h3>
                         <div style="width: 100%; height: 300px; border-radius: 12px; overflow: hidden; background: #000;">
                             <iframe
-                                src="https://www.youtube.com/embed/l3FV7pnTNeo?si=m1X7QivOWvqGqxib" 
+                                id="youtubeVideo"
+                                src="https://www.youtube.com/embed/l3FV7pnTNeo?si=m1X7QivOWvqGqxib&enablejsapi=1" 
                                 title="Wedding Teaser Video"
                                 style="width: 100%; height: 100%; border: none;" 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -1333,10 +1384,15 @@
         <section class="event-section">
             <div class="container">
                 <div class="glass-panel event-container lazy-element">
+                    <div style="text-align: center; margin-bottom: 10px;">
+                        <h2 class="section-title" style="margin-bottom: 5px;">Wedding Events</h2>
+                        <p style="color: var(--text-muted); font-size: 0.95rem;">Rangkaian Acara Pernikahan Kami</p>
+                    </div>
+
                     <div class="events-grid">
                         <div class="event-card">
                             <i class="fa-solid fa-dharmachakra" style="font-size: 1.8rem; color: var(--text-gold);"></i>
-                            <h2 class="section-title" style="margin-top: 10px; font-size: 1.8rem;">Holy Matrimony</h2>
+                            <h3 class="section-title" style="margin-top: 10px; font-size: 1.6rem;">Holy Matrimony</h3>
 
                             <div class="date-display">
                                 <div class="date-number">18</div>
@@ -1355,7 +1411,7 @@
 
                         <div class="event-card">
                             <i class="fa-solid fa-champagne-glasses" style="font-size: 1.8rem; color: var(--text-gold);"></i>
-                            <h2 class="section-title" style="margin-top: 10px; font-size: 1.8rem;">Wedding Reception</h2>
+                            <h3 class="section-title" style="margin-top: 10px; font-size: 1.6rem;">Wedding Reception</h3>
 
                             <div class="date-display">
                                 <div class="date-number">22</div>
@@ -1371,6 +1427,18 @@
                                 <a href="https://maps.google.com/?q=Regale+International+Convention+Centre+Medan" target="_blank" class="btn-location">Google Maps Location</a>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Dress Code & House Rules Section -->
+        <section class="dresscode-section">
+            <div class="container">
+                <div class="glass-panel dresscode-container lazy-element">
+                    <div style="text-align: center; margin-bottom: 25px;">
+                        <h2 class="section-title" style="margin-bottom: 5px;">Dress Code & Rules</h2>
+                        <p style="color: var(--text-muted); font-size: 0.95rem;">Ketentuan pakaian dan informasi penting</p>
                     </div>
 
                     <div class="dresscode-card">
@@ -1399,12 +1467,11 @@
                             (*no kids allowed*)
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
 
-        <!-- 6. Wedding Gift & RSVP Form -->
+        <!-- 7. Wedding Gift & RSVP Form -->
         <section class="rsvp-section">
             <div class="container">
                 <div class="interactive-grid">
@@ -1439,7 +1506,6 @@
                                     </select>
                                 </div>
 
-                                <!-- Kolom Sesi Acara & Jumlah Tamu dengan Logika Kondisional Dinamis -->
                                 <div id="conditionalFields">
                                     <div class="form-group">
                                         <label for="sesi_acara">Pilih Sesi Acara Kehadiran</label>
@@ -1497,26 +1563,28 @@
             </div>
         </div>
 
-        <!-- 7. Closing Thank You -->
+        <!-- 8. Closing Thank You -->
         <section class="thankyou-section">
             <div class="glass-panel thankyou-card lazy-element">
-                <p style="letter-spacing: 3px; font-size: 0.9rem; text-transform: uppercase; color: var(--text-gold);">Thank You</p>
-                <h2 style="font-family: var(--font-cinzel); font-size: clamp(1.8rem, 4.5vw, 3.5rem); margin: 15px 0; color: #fff; font-weight: 200; white-space: nowrap;">Chery & Wina</h2>
-                <p style="font-size: 0.95rem; color: var(--text-muted); font-style: italic;">
-                    "Minta angpao yang banyakkkkk."
+                <p style="letter-spacing: 3px; font-size: 1rem; text-transform: uppercase; color: var(--text-gold);">Thank You</p>
+                <p style="letter-spacing: 3px; font-size: 0.8rem; text-transform: uppercase; color: var(--text-gold); margin-top: 5px;">for your Presence & Blessings</p>
+                <p style="font-size: 0.9rem; color: var(--text-muted); font-style: italic; margin: 20px 0; line-height: 1.6;">
+                    "We can’t wait to share this special moment with you. Your presence will make our day even more meaningful."
                 </p>
+                <h2 style="font-family: var(--font-cinzel); font-size: clamp(1.8rem, 4.5vw, 3.5rem); margin: 15px 0; color: #fff; font-weight: 200;">Chery & Wina</h2>
             </div>
         </section>
-
+        
+        <div class="michaelchery-branding">
+            &copy; 2026 michaelchery. All Rights Reserved.
+        </div>
     </div>
 
-    <!-- MODAL LIGHTBOX FOTO GALERI (DENGAN DUKUNGAN SWIPER DRAG/SWIPE) -->
+    <!-- MODAL LIGHTBOX FOTO GALERI -->
     <div class="lightbox-modal" id="lightboxModal">
         <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
         <div class="swiper modalSwiper" style="width: 100%; height: 100%;">
-            <div class="swiper-wrapper" id="modalSwiperWrapper">
-                <!-- Slide gambar diisi secara dinamis lewat JavaScript -->
-            </div>
+            <div class="swiper-wrapper" id="modalSwiperWrapper"></div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
         </div>
@@ -1524,6 +1592,9 @@
 
     <!-- Swiper JS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <!-- YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
     // PRELOADER ASSET PERANGKAT APPLE vs OTHERS
@@ -1675,10 +1746,11 @@
     const musicIcon = document.getElementById('musicIcon');
     const mainContent = document.getElementById('mainContent');
     const inputNama = document.getElementById('nama');
-    const teaserVideo = document.getElementById('teaserVideo');
+    
     let isPlaying = false;
     let wasPlayingBeforeVideo = false;
     let isUserInvited = true;
+    let player; 
 
     if (guest) {
         const normalizedGuest = guest.trim().toLowerCase();
@@ -1709,6 +1781,35 @@
     document.addEventListener("DOMContentLoaded", () => {
         initFullAssetPreloader();
     });
+
+    // YOUTUBE API READY CALLBACK
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('youtubeVideo', {
+            events: {
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+
+    // PANTAU STATUS PEMUTARAN VIDEO YOUTUBE
+    function onPlayerStateChange(event) {
+        if (event.data === YT.PlayerState.PLAYING) {
+            if (isPlaying) {
+                wasPlayingBeforeVideo = true;
+                audio.pause();
+                isPlaying = false;
+                musicIcon.className = 'fa-solid fa-volume-xmark';
+            }
+        } 
+        else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+            if (wasPlayingBeforeVideo) {
+                audio.play();
+                isPlaying = true;
+                musicIcon.className = 'fa-solid fa-music';
+                wasPlayingBeforeVideo = false;
+            }
+        }
+    }
 
     // LOGIKA KONDISIONAL DINAMIS RSVP KEHADIRAN & SESI
     const kehadiranSelect = document.getElementById('kehadiran');
@@ -1760,7 +1861,7 @@
         }
     });
 
-    // TOGGLE MUSIK
+    // TOGGLE MUSIK MANUAL
     musicBtn.addEventListener('click', () => {
         if (isPlaying) { 
             audio.pause(); 
@@ -1772,36 +1873,6 @@
             musicIcon.className = 'fa-solid fa-music';
         }
     });
-
-    // SINKRONISASI AUDIO & VIDEO
-    if (teaserVideo) {
-        teaserVideo.addEventListener('play', () => {
-            if (isPlaying) {
-                wasPlayingBeforeVideo = true;
-                audio.pause();
-                isPlaying = false;
-                musicIcon.className = 'fa-solid fa-volume-xmark';
-            }
-        });
-
-        teaserVideo.addEventListener('pause', () => {
-            if (wasPlayingBeforeVideo) {
-                audio.play();
-                isPlaying = true;
-                musicIcon.className = 'fa-solid fa-music';
-                wasPlayingBeforeVideo = false;
-            }
-        });
-
-        teaserVideo.addEventListener('ended', () => {
-            if (wasPlayingBeforeVideo) {
-                audio.play();
-                isPlaying = true;
-                musicIcon.className = 'fa-solid fa-music';
-                wasPlayingBeforeVideo = false;
-            }
-        });
-    }
 
     // COUNTDOWN TIMER
     const targetDate = new Date('October 18, 2026 13:00:00 GMT+0700').getTime();
@@ -1874,7 +1945,6 @@
     }
 
     function closeModal() {
-        document.getElementById('bankModal').classList.add('active');
         document.getElementById('bankModal').classList.remove('active');
     }
 
@@ -1898,10 +1968,8 @@
         formStatus.style.color = '#c6a052';
         formStatus.innerText = 'Sedang mengirim konfirmasi...';
 
-        // Membuat objek FormData langsung dari elemen form
         const formData = new FormData(form);
 
-        // Jika memilih Tidak Hadir, pastikan data sesi dan jumlah dikirim sebagai strip (-)
         if (document.getElementById('kehadiran').value === 'Tidak Hadir') {
             formData.set('sesi_acara', '-');
             formData.set('jumlah_tamu', '-');
