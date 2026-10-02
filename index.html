@@ -1977,6 +1977,128 @@
     });
 
     const targetDate = new Date('October 18, 2026 13:00:00 GMT+0700').getTime();
+    setInterval(() => {
+        const now = new Date().getTime();
+        const diff = targetDate - now;
+        if (diff > 0) {
+            document.getElementById('days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+            document.getElementById('hours').innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+            document.getElementById('mins').innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            document.getElementById('secs').innerText = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+        }
+    }, 1000);
+
+    let modalSwiper = null;
+
+    function initModalSwiper() {
+        if (!modalSwiper) {
+            modalSwiper = new Swiper(".modalSwiper", {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: true,
+                navigation: {
+                    nextEl: ".modalSwiper .swiper-button-next",
+                    prevEl: ".modalSwiper .swiper-button-prev",
+                },
+                keyboard: {
+                    enabled: true,
+                },
+            });
+        }
+    }
+
+    function openLightbox(element) {
+        const currentSwiperWrapper = element.closest('.swiper-wrapper');
+        const images = currentSwiperWrapper.querySelectorAll('img');
+        const clickedImgSrc = element.querySelector('img').src;
+        
+        const modalWrapper = document.getElementById('modalSwiperWrapper');
+        modalWrapper.innerHTML = ''; 
+
+        let initialIndex = 0;
+
+        images.forEach((img, index) => {
+            if (img.src === clickedImgSrc) {
+                initialIndex = index;
+            }
+            const slide = document.createElement('div');
+            slide.className = 'swiper-slide';
+            slide.innerHTML = `<img src="${img.src}" alt="Fullsize Photo" loading="lazy">`;
+            modalWrapper.appendChild(slide);
+        });
+
+        const lightboxModal = document.getElementById('lightboxModal');
+        lightboxModal.classList.add('active');
+
+        initModalSwiper();
+        modalSwiper.update();
+        modalSwiper.slideToLoop(initialIndex, 0); 
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightboxModal').classList.remove('active');
+    }
+
+    function openModal() {
+        document.getElementById('bankModal').classList.add('active');
+    }
+
+    function closeModal() {
+        document.getElementById('bankModal').classList.remove('active');
+    }
+
+    function copyAccount(elementId) {
+        const accNumber = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(accNumber);
+        alert('Nomor rekening ' + accNumber + ' berhasil disalin!');
+    }
+
+    const form = document.getElementById('rsvpForm');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const formStatus = document.getElementById('formStatus');
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        btnSubmit.disabled = true;
+        btnSubmit.innerText = 'Mengirim...';
+        formStatus.style.display = 'block';
+        formStatus.style.color = '#c6a052';
+        formStatus.innerText = 'Sedang mengirim konfirmasi...';
+
+        const formData = new FormData(form);
+
+        if (document.getElementById('kehadiran').value === 'Tidak Hadir') {
+            formData.set('sesi_acara', '-');
+            formData.set('jumlah_tamu', '-');
+        }
+
+        fetch(scriptURL, { 
+            method: 'POST', 
+            body: formData 
+        })
+        .then(response => response.json())
+        .then(result => {
+            btnSubmit.disabled = false;
+            btnSubmit.innerText = 'Kirim Konfirmasi';
+            formStatus.style.color = '#4CAF50';
+            formStatus.innerText = 'Terima kasih! Konfirmasi kehadiran & ucapan berhasil terkirim. Menunggu persetujuan tampil.';
+        
+            form.reset();
+            document.getElementById('conditionalFields').style.display = 'block';
+            if (guest && whitelistTamu.includes(guest.trim().toLowerCase())) {
+                inputNama.value = toTitleCase(guest.trim());
+            }
+
+            setTimeout(loadWishes, 3000);
+        })
+        .catch(error => {
+            btnSubmit.disabled = false;
+            btnSubmit.innerText = 'Kirim Konfirmasi';
+            formStatus.style.color = '#F44336';
+            formStatus.innerText = 'Gagal mengirim. Silakan coba lagi.';
+            console.error('Error!', error);
+        });
+    });
     </script>
 </body>
 </html>
